@@ -3,25 +3,24 @@ import { FetchSinglePokemon } from '../Api';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import type { PokemonData } from '../types';
 
-
 const typeColors: Record<string, string> = {
-    normal: 'from-gray-400 to-gray-600',
-    fire: 'from-orange-400 to-red-600',
-    water: 'from-blue-400 to-blue-600',
-    electric: 'from-yellow-300 to-yellow-500',
-    grass: 'from-green-400 to-green-600',
-    ice: 'from-cyan-300 to-cyan-500',
-    fighting: 'from-red-700 to-red-900',
-    poison: 'from-purple-400 to-purple-600',
-    ground: 'from-yellow-600 to-yellow-800',
-    flying: 'from-indigo-300 to-indigo-500',
-    psychic: 'from-pink-400 to-pink-600',
-    bug: 'from-lime-400 to-lime-600',
-    rock: 'from-stone-500 to-stone-700',
-    ghost: 'from-purple-700 to-purple-900',
-    dragon: 'from-indigo-500 to-indigo-800',
-    steel: 'from-slate-400 to-slate-600',
-    fairy: 'from-pink-300 to-pink-500',
+    normal: 'bg-gray-600',
+    fire: 'bg-orange-400',
+    water: 'bg-blue-400',
+    electric: 'bg-yellow-300',
+    grass: 'bg-green-400',
+    ice: 'bg-cyan-300',
+    fighting: 'bg-red-700',
+    poison: 'bg-purple-400',
+    ground: 'bg-yellow-600',
+    flying: 'bg-indigo-300',
+    psychic: 'bg-pink-400',
+    bug: 'bg-lime-400',
+    rock: 'bg-stone-500',
+    ghost: 'bg-purple-700',
+    dragon: 'bg-indigo-500',
+    steel: 'bg-slate-400',
+    fairy: 'bg-pink-400',
 };
 
 const PokemonCard = () => {
@@ -62,7 +61,7 @@ const PokemonCard = () => {
     }, [name]);
 
     const mainType = data?.types[0]?.type.name || 'normal';
-    const bgGradient = typeColors[mainType] || typeColors.normal;
+    const bgGradient = typeColors[mainType] || typeColors['normal'];
 
     const imageUrl =
         data?.sprites?.other?.['official-artwork']?.front_default ||
@@ -83,7 +82,7 @@ const PokemonCard = () => {
 
     if (error) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-4 bg-slate-200 transition-all duration-700">
+            <div className="min-h-screen flex items-center justify-center p-4 bg-slate-200">
                 <div className="max-w-md w-full bg-white shadow-xl rounded-2xl p-8 text-center border border-gray-200">
                     <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 mb-6">
                         <svg className="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -107,35 +106,34 @@ const PokemonCard = () => {
     }
 
     return (
-        <div className={`min-h-screen w-full bg-gradient-to-br ${bgGradient} flex items-center justify-center p-4 md:p-8 transition-colors duration-700`}>
+        <div className={`min-h-screen w-full ${bgGradient} flex items-center justify-center p-4 md:p-8 transition-colors duration-700`}>
 
             {data && (
-                <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col md:flex-row min-h-[500px]">
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col md:grid md:grid-cols-2 md:min-h-[500px]">
 
-                    <div className={`md:w-1/2 relative flex flex-col items-center justify-center p-10 bg-gradient-to-b ${bgGradient} md:bg-none`}>
+                    <div className={`relative flex flex-col items-center justify-center p-6 md:p-10 ${bgGradient} md:bg-transparent`}>
+                        <div className='absolute top-6 left-6 text-white/90 text-2xl md:text-3xl drop-shadow-md font-extrabold'>
+                            #{String(data.id).padStart(3, '0')}
+                        </div>
 
-                        <div className="absolute w-64 h-64 bg-white opacity-20 rounded-full blur-3xl"></div>
+                        <div className="absolute w-48 h-48 md:w-64 md:h-64 bg-white opacity-20 rounded-full blur-3xl"></div>
 
-                        <div className="relative z-10 text-center">
-                            <span className="text-white/80 text-9xl font-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 select-none">
-                                #{String(data.id).padStart(3, '0')}
-                            </span>
-
+                        <div className="relative z-10 text-center mt-8 md:mt-0">
                             <img
                                 src={imageUrl}
                                 alt={data.name}
-                                className="w-64 h-64 object-contain drop-shadow-2xl hover:scale-110 transition-transform duration-500 relative z-20"
+                                className="w-40 h-40 md:w-64 md:h-64 object-contain drop-shadow-2xl hover:scale-110 transition-transform duration-500 relative z-20 mx-auto"
                             />
 
-                            <h1 className="text-4xl md:text-5xl font-black text-white mt-4 capitalize drop-shadow-md">
+                            <h1 className="text-3xl md:text-5xl font-black text-white mt-4 capitalize drop-shadow-md">
                                 {data.name}
                             </h1>
 
-                            <div className="flex gap-2 justify-center mt-4">
+                            <div className="flex gap-2 justify-center mt-4 flex-wrap">
                                 {data.types.map((t) => (
                                     <span
                                         key={t.type.name}
-                                        className="px-4 py-1.5 text-sm font-bold text-gray-800 bg-white/90 rounded-full shadow-sm uppercase tracking-wider"
+                                        className="px-3 py-1 md:px-4 md:py-1.5 text-xs md:text-sm font-bold text-gray-800 bg-white/90 rounded-full shadow-sm uppercase tracking-wider"
                                     >
                                         {t.type.name}
                                     </span>
@@ -144,37 +142,58 @@ const PokemonCard = () => {
                         </div>
                     </div>
 
-                    <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
-                        <div className="mb-8">
-                            <h3 className="text-gray-400 font-bold uppercase tracking-widest text-sm mb-6">
+                    <div className="flex flex-col justify-center bg-white/90 md:bg-white/95 backdrop-blur-sm p-6 md:p-10">
+
+                        <div className="mb-6">
+                            <h3 className="text-gray-600 font-bold uppercase tracking-widest text-xs md:text-sm mb-4">
                                 Physical Stats
                             </h3>
-                            <div className="grid grid-cols-2 gap-6">
-                                <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <p className="text-gray-400 text-xs font-bold uppercase mb-1">Height</p>
-                                    <p className="text-2xl font-bold text-gray-800">{(data.height / 10).toFixed(1)} <span className="text-base font-medium text-gray-400">m</span></p>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="p-3 md:p-4 bg-gray-50 rounded-2xl border border-gray-200/50 shadow-sm">
+                                    <p className="text-gray-500 text-[10px] md:text-xs font-bold uppercase mb-1">Height</p>
+                                    <p className="text-xl md:text-2xl font-bold text-gray-800">{(data.height / 10).toFixed(1)} <span className="text-sm md:text-base font-medium text-gray-500">m</span></p>
                                 </div>
-                                <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <p className="text-gray-400 text-xs font-bold uppercase mb-1">Weight</p>
-                                    <p className="text-2xl font-bold text-gray-800">{(data.weight / 10).toFixed(1)} <span className="text-base font-medium text-gray-400">kg</span></p>
+                                <div className="p-3 md:p-4 bg-gray-50 rounded-2xl border border-gray-200/50 shadow-sm">
+                                    <p className="text-gray-500 text-[10px] md:text-xs font-bold uppercase mb-1">Weight</p>
+                                    <p className="text-xl md:text-2xl font-bold text-gray-800">{(data.weight / 10).toFixed(1)} <span className="text-sm md:text-base font-medium text-gray-500">kg</span></p>
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <h3 className="text-gray-400 font-bold uppercase tracking-widest text-sm mb-4">
+                        <div className="mb-6">
+                            <h3 className="text-gray-600 font-bold uppercase tracking-widest text-xs md:text-sm mb-3">
+                                Moves
+                            </h3>
+                            <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto pr-2 custom-scrollbar">
+                                {data.moves && data.moves.length > 0 ? (
+                                    data.moves.map((m, index) => (
+                                        <span
+                                            key={index}
+                                            className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg capitalize transition-colors cursor-default border border-gray-200"
+                                        >
+                                            {m.move.name}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span className="text-sm text-gray-400 italic">No moves available</span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="mb-6 md:mb-0">
+                            <h3 className="text-gray-600 font-bold uppercase tracking-widest text-xs md:text-sm mb-2">
                                 About
                             </h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                This is a {data.types.map(t => t.type.name).join(' and ')} type Pokemon.
-                                It is indexed as #{data.id} in the National Pokedex.
+                            <p className="text-gray-600 leading-relaxed font-medium text-sm md:text-base">
+                                This is a <span className="capitalize">{data.types.map(t => t.type.name).join(' and ')}</span> type Pokemon.
+                                It is indexed as <span className="font-bold">#{data.id}</span> in the National Pokedex.
                             </p>
                         </div>
 
-                        <div className="mt-auto pt-8">
+                        <div className="mt-auto pt-4 md:pt-8 border-t border-gray-100 md:border-none">
                             <button
                                 onClick={() => navigate(-1)}
-                                className="text-gray-400 hover:text-gray-800 font-semibold text-sm transition-colors flex items-center gap-2"
+                                className="text-gray-500 hover:text-gray-900 font-semibold text-sm transition-colors flex items-center gap-2"
                             >
                                 ← Back to Search
                             </button>

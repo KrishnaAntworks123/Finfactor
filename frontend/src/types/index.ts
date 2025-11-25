@@ -22,4 +22,10 @@ export interface PokemonData {
         base_stat: number;
         stat: { name: string };
     }[];
+    moves: {
+        move: {
+            name: string;
+            url: string;
+        };
+    }[];
 }
