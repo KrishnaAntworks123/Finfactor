@@ -1,18 +1,15 @@
 package com.pokemon.controllers;
 
+import com.pokemon.dtos.SinglePokemonDto;
 import com.pokemon.dtos.SinglePokemonResponse;
 import com.pokemon.service.PokemonService;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pokemon")
+@CrossOrigin(origins = "*")
 public class controller {
     public final PokemonService pokemonService;
 
@@ -21,15 +18,22 @@ public class controller {
     }
 
     @GetMapping("/test")
-    public String test(){
+    public String test() {
         return "hello world";
     }
 
     @GetMapping("{name}")
-    public  ResponseEntity<SinglePokemonResponse>  getPokemonByName(@PathVariable String name){
+    public ResponseEntity<SinglePokemonDto> getPokemonByName(@PathVariable String name) {
         System.out.println(name);
-        SinglePokemonResponse response= pokemonService.GetSinglePokemon(name);
-        if (response == null) return ResponseEntity.notFound().build();
-        return  ResponseEntity.ok(response);
+        try {
+            SinglePokemonResponse response = pokemonService.GetSinglePokemon(name);
+            SinglePokemonDto responseToSend= SinglePokemonDto.builder().singlePokemonResponse(response).success(true).message("success").build();
+            if (response == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(responseToSend);
+        }
+        catch (Exception e) {
+            SinglePokemonDto responseToSend= SinglePokemonDto.builder().success(true).message("failed").build();
+            return new ResponseEntity<>(responseToSend,HttpStatus.BAD_REQUEST);
+        }
     }
 }

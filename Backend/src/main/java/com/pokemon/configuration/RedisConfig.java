@@ -1,6 +1,5 @@
 package com.pokemon.configuration;
 
-import com.pokemon.dtos.SinglePokemonResponse;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
