@@ -1,6 +1,6 @@
 package com.pokemon.service;
 
-import com.pokemon.dtos.SinglePokemonResponse;
+import com.pokemon.dtos.PokemonData;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,11 +14,11 @@ public class PokemonService {
     }
 
     @Cacheable(value = "pokemon", key = "#name")
-    public SinglePokemonResponse getSinglePokemon(String name){
+    public PokemonData getSinglePokemon(String name){
         return webClient.get()
                 .uri("https://pokeapi.co/api/v2/pokemon/"+name)
                 .retrieve()
-                .bodyToMono(SinglePokemonResponse.class)
+                .bodyToMono(PokemonData.class)
                 .block();
     }
 

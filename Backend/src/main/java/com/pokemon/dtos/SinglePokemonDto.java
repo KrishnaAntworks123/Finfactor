@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SinglePokemonDto {
-    private SinglePokemonResponse singlePokemonResponse;
+    private PokemonData pokemonData;
     private Boolean success;
     private String message;
 }

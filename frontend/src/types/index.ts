@@ -3,6 +3,7 @@ export interface PokemonData {
     name: string;
     height: number;
     weight: number;
+
     types: {
         slot: number;
         type: {
@@ -11,17 +12,19 @@ export interface PokemonData {
         };
     }[];
     sprites: {
-        frontDefault: string | null;
+        front_default: string | null;
         other?: {
-            'official-artwork': {
+            ["official-artwork"]?: {
                 front_default: string | null;
             };
         };
     };
+
     stats?: {
         base_stat: number;
         stat: { name: string };
     }[];
+
     moves: {
         move: {
             name: string;

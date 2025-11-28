@@ -45,7 +45,7 @@ const PokemonCard = () => {
         try {
             const response = await FetchSinglePokemon(name);
             if (response.success === true) {
-                setData(response.singlePokemonResponse);
+                setData(response.pokemonData);
             } else {
                 setError(true);
             }
@@ -65,7 +65,7 @@ const PokemonCard = () => {
 
     const imageUrl =
         data?.sprites?.other?.['official-artwork']?.front_default ||
-        data?.sprites?.frontDefault ||
+        data?.sprites?.front_default ||
         `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data?.id}.png`;
 
     if (loading) {
